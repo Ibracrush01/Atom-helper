@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Формулы по физике</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>
+    :root {
+        --background-color: linear-gradient(135deg, #0d0d2b, #0b3d91);
+        --text-color: #ffffff;
+        --card-bg: rgba(255, 255, 255 , 0.1);
+        --card-border: rgba(255, 255, 255, 0.2);
+        --formula-bg: rgba(0,0,0,0.3);
+    }
+    body.light {
+        --background-color: linear-gradient(135deg, #e3f2fd, #bbdefb);
+        --text-color: #000000;
+        --card-bg: rgba(0,0,0,0.05);
+        --card-border: rgba(0,0,0,0.1);
+        --formula-bg: rgba(255,255,255 , 0.3);
+    }
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background: var(--background-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    .container {
+        max-width: 900px;
+        text-align: center;
+        padding: 20px;
+        width: 100%;
+    }
+    .theme {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 22px;
+        cursor: pointer;
+        color: var(--text-color);
+        font-family: 'Montserrat',sans-serif;
+    }
+    h1 {
+        margin-bottom: 30px;
+        font-size: 32px;
+        font-weight: 600;
+    }
+    h2 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    .categories {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        font-family: 'Montserrat',sans-serif;
+    }
+    .card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 12px;
+        padding: 15px 25px;
+        font-size: 16px;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        min-width: 160px;
+        text-align: center;
+    }
+    .card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+    body.light .card:hover {
+        background-color: rgba(0,0,0,0.1);
+    }
+    .card i {
+        margin-right: 8px;
+    }
+    .formula {
+        background-color: var(--formula-bg);
+        padding: 20px;
+        border-radius: 12px;
+        text-align: left;
+        max-height: 400px;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+    ul {
+        padding-left: 20px;
+        text-align: left;
+    }
+    li {
+        margin-bottom: 8px;
+    }
+    .calculator {
+        background-color: var(--formula-bg);
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px; 
+    }
+    .calculator input {
+        width: 100px;
+        padding: 5px;
+        margin: 5px;
+    }
+    .calculator button {
+        padding: 5px 10px;
+        margin-top: 10px;
+    }
+    .si-table {
+        background-color: var(--formula-bg);
+        padding: 20px;
+        border-radius: 12px;
+    }
+    .si-table table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .si-table th, .si-table td {
+        border: 1px solid var(--card-border);
+        padding: 8px;
+        text-align: center;
+    }
+    .si-table th {
+        background-color: var(--card-bg);
+    }
+    .card , .formula , .calculator , .table1 {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .table1 tbody tr:nth-child(even) {
+        background-color: rgba(255,255,255 , 0.05);
+    }
+    body.light .table tbody tr:nth-child(even) {
+        background-color: rgba(255,255,255 , 0.05);
+    }
+</style>
+</head>
+<body>
+ <div class="theme" onclick="Theme()">
+    <i id="themeicon" class="fas fa-moon"></i>
+ </div>
+ <div class="container">
+    <h1>Выбирай категорию и начинай!</h1>
+    <div class="categories">
+        <button class="card" onclick="showFormula('all')"><i class="fas fa-layer-group">Все формулы</i></button>
+        <button class="card" onclick="showFormula('mechanics')"><i class="fas fa-cogs">Механика</i></button>
+        <button class="card" onclick="showFormula('MKT')"><i class="fas fa-project-diagram">МКТ</i></button>
+        <button class="card" onclick="showFormula('current')"><i class="fas fa-bolt">Токи</i></button>
+        <button class="card" onclick="showFormula('waves')"><i class="fas fa-wave-square">Колебания и Волны</i></button>
+        <button class="card" onclick="showFormula('optika')"><i class="fas fa-crosshairs">Оптика</i></button>
+        <button class="card" onclick="showFormula('atom')"><i class="fas fa-atom">Атомная физика</i></button>
+    </div>
+<div class="formula" id="formulaArea">
+    <p>Выберите категорию,чтобы увидеть формулы.</p>
+</div>
+<div class="calculator">
+   
+    <h2>Калькулятор перевода в СИ</h2>
+
+    <label for="quantity">Выберите величину:</label>
+    <select id="quantity" onchange="updateUnits()">
+        <option value="">-- выбрать величину --</option>
+        <option value="length">Длина</option>
+        <option value="mass">Масса</option>
+        <option value="time">Время</option>
+        <option value="temperature">Температура</option>
+    </select>
+
+    <div id="unitSection" style="margin-top:10px;">
+        <label for="unit">Выберите единицу:</label>
+        <select id="unit">
+            <option value="">-- сначала выберите величину --</option>
+        </select>
+    </div>
+
+    <label for="value">Введите значение:</label>
+    <input type="number" id="value" placeholder="Например: 5">
+
+    <button onclick="convertToSI()">Преобразовать в СИ</button>
+    <p id="convertedResult"></p>
+</div>
+<div class="si-table">
+    <h2>Таблиц единиц СИ</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Величина</th>
+                <th>Символ</th>
+                <th>Единица</th>
+                <th>Символ единицы</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Длина</td>
+                <td>l</td>
+                <td>метр</td>
+                <td>m</td>
+            </tr>
+            <tr>
+                <td>Масса</td>
+                <td>m</td>
+                <td>килограмм</td>
+                <td>kg</td>
+            </tr>
+            <tr>
+                <td>Время</td>
+                <td>t</td>
+                <td>секунда</td>
+                <td>s</td>
+            </tr>
+            <tr>
+                <td>Сила тока</td>
+                <td>I</td>
+                <td>Ампер</td>
+                <td>А</td>
+            </tr>
+            <tr>
+                <td>Температура</td>
+                <td>T</td>
+                <td>Кельвин</td>
+                <td>K</td>
+            </tr>
+            <tr>
+                <td>Количество вещества</td>
+                <td>n</td>
+                <td>моль</td>
+                <td>mol</td>
+            </tr>
+            <tr>
+                <td>Светимость</td>
+                <td>Iv</td>
+                <td>кандела</td>
+                <td>cd</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+<script>
+    const formulas = {
+        all: [
+            "\\( F = ma \\)",
+            "\\( E = mc^2 \\)",
+            "\\( v = \\frac{s}{t} \\)",
+            "\\( I = \\frac{U}{R}\\)",
+            "\\(\\lambda = \\frac{v}{f}\\)",
+        ],
+        mechanics: [
+            "\\( F = ma\\)",
+            "\\( v = \\frac{s}{t} \\)",
+            "\\( W = F \\cdot s \\cdot \\cos(\\theta) \\)",
+        ],
+        MKT: [
+            "\\( pV = nRT \\)",
+            "\\( E_{\\text{cp}} = \\frac{3}{2}kT \\)",
+        ],
+        current: [
+            "\\( I = \\frac{U}{R} \\)",
+            "\\( P = UI \\)",
+            "\\( Q = It \\)"
+        ],
+        waves: [
+            "\\(\\lambda = \\frac{v}{t} \\)",
+            "\\( T = \\frac{1}{f} \\)",
+        ],
+        optika: [
+            "\\( n = \\frac{c}{v} \\)",
+            "\\( D = \\frac{1}{f} \\)",
+        ],
+        atom: [
+            "\\( E = hf \\)",
+            "\\( E = mc^2 \\)"
+        ]
+    };
+    function showFormula(category) {
+        const area = document.getElementById("formulaArea");
+        const list = formulas[category] || [];   
+        if (list.length === 0) {
+            area.innerHTML = "<p>Формулы не найдены.</p>";
+            return;
+        }
+        area.innerHTML = "<ul>" + list.map(f => `<li>${f}</li>`).join("") + "</ul>";
+        MathJax.typesetPromise();
+    }
+    function calculateForce(){
+        const m = parseFloat(document.getElementById("massa").value);
+        const a = parseFloat(document.getElementById("acc").value);
+        const result = document.getElementById("result");
+        if (isNaN(m) || isNaN(a)) {
+            result.textContent = "Введите корректные значения массы и ускорения";
+            return;
+        }
+        const F = m * a;
+        result.textContent = `F = ${F.toFixed(2)}`;
+    }
+    function Theme() {
+        const body = document.body;
+        const icon = document.getElementById("themeicon");
+        body.classList.toggle("light");
+        icon.classList.toggle("fa-moon");
+        icon.classList.toggle("fa-sun");
+    }
+    const unitsByQuantity = {
+    length: {
+        name: "Длина",
+        units: {
+            km: { factor: 1000, symbol: "м" },
+            m: { factor: 1, symbol: "м" },
+            cm: { factor: 0.01, symbol: "м" },
+            mm: { factor: 0.001, symbol: "м" }
+        }
+    },
+    mass: {
+        name: "Масса",
+        units: {
+            kg: { factor: 1, symbol: "кг" },
+            g: { factor: 0.001, symbol: "кг" }
+        }
+    },
+    time: {
+        name: "Время",
+        units: {
+            h: { factor: 3600, symbol: "сек" },
+            min: { factor: 60, symbol: "сек" },
+            s: { factor: 1, symbol: "сек" }
+        }
+    },
+    temperature: {
+        name: "Температура",
+        units: {
+            "°C": { factor: 1, offset: 273.15, symbol: "К" },
+            K: { factor: 1, symbol: "К" }
+        }
+    }
+};
+
+function updateUnits() {
+    const quantity = document.getElementById("quantity").value;
+    const unitSelect = document.getElementById("unit");
+
+    unitSelect.innerHTML = ""; // Очистка
+
+    if (unitsByQuantity[quantity]) {
+        for (let unit in unitsByQuantity[quantity].units) {
+            const option = document.createElement("option");
+            option.value = unit;
+            option.textContent = unit;
+            unitSelect.appendChild(option);
+        }
+    } else {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "-- сначала выберите величину --";
+        unitSelect.appendChild(option);
+    }
+}
+
+function convertToSI() {
+    const quantity = document.getElementById("quantity").value;
+    const unit = document.getElementById("unit").value;
+    const value = parseFloat(document.getElementById("value").value);
+    const result = document.getElementById("convertedResult");
+
+    if (!quantity || !unit || isNaN(value)) {
+        result.textContent = "Пожалуйста, заполните все поля корректно.";
+        return;
+    }
+
+    const unitInfo = unitsByQuantity[quantity].units[unit];
+    let siValue;
+
+    if (quantity === "temperature" && unit === "°C") {
+        siValue = value + unitInfo.offset;
+    } else {
+        siValue = value * unitInfo.factor;
+    }
+
+    result.textContent = `Результат: ${siValue.toFixed(3)} ${unitInfo.symbol}`;
+}
+</script>
+</body>
+</html>
